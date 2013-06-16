@@ -1,0 +1,7 @@
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=logs
+--ignore-dir=cache
+--ignore-dir=vendor
+--ignore-dir=public/generated
+--sort-files

@@ -1,6 +1,5 @@
-SHELL_FILES ?= .bash_profile .bashrc .gitconfig .inputrc \
-	.bash/aliases.sh .bash/exports.sh .bash/functions.sh .bash/shell.sh \
-	.bash_completion.d/misc $(wildcard .local/bin/*)
+SHELL_FILES ?= .bash_profile .ackrc .bashrc .gitconfig .inputrc \
+	.bash_completion.d/misc $(wildcard .bash/*) $(wildcard .local/bin/*)
 
 
 TARGETS_CLEAN ?= SHELL

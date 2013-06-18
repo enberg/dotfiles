@@ -1,4 +1,4 @@
-SHELL_FILES ?= .bash_profile .ackrc .bashrc .gitconfig .inputrc \
+SHELL_FILES ?= .bash_profile .ackrc .bashrc .ggitignore .gitconfig .inputrc \
 	.bash_completion.d/misc $(wildcard .bash/*) $(wildcard .local/bin/*)
 
 

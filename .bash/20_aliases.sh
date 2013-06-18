@@ -39,3 +39,12 @@ alias gcb="gc -b"
 
 # Place scrot files in specified directory
 have scrot && alias scrot="scrot ~/pictures/screenshots/%Y-%m-%d_%H%M%S.png"
+
+# Ubuntu and their package names..
+have ack-grep && alias ack="ack-grep"
+
+# Php stuff
+have php-cs-fixer && alias psr="php-cs-fixer fix --dry-run --verbose --diff"
+
+# Bashrc convenience
+alias bashrc="source ~/.bashrc"

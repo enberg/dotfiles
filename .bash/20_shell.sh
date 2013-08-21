@@ -42,3 +42,13 @@ if [[ -f "$NVM_HOME/nvm.sh" ]]; then
 	source "$NVM_HOME/nvm.sh"
 	[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 fi
+
+# Ubuntu completions
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+

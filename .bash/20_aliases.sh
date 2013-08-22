@@ -36,6 +36,7 @@ alias gb="git branch"
 alias gba="git branch -a"
 function gc() { git checkout "${@:-master}"; } # Checkout master by default
 alias gcb="gc -b"
+alias gbdiff='git diff --name-only master..$(git branch | grep "^\*" | sed "s/^\* //")'
 
 # Place scrot files in specified directory
 have scrot && alias scrot="scrot ~/pictures/screenshots/%Y-%m-%d_%H%M%S.png"

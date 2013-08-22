@@ -69,15 +69,3 @@ mkcdir() {
   fi
   printf "\n"
 }
-
-# Git convenience funcs
-gbdiff() {
-    local branch=""
-    branch="$(git branch 2>/dev/null)"
-    [[ $? != 0 ]] && return;
-
-    branch="$(echo "$branch" | grep '^\*' | sed 's/^\* //')"
-
-    echo $branch
-}
-

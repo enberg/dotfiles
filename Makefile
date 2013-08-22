@@ -1,5 +1,5 @@
 SHELL_FILES ?= .bash_profile .ackrc .bashrc .ggitignore .gitconfig .inputrc \
-	.bash_completion.d/misc $(wildcard .bash/*) $(wildcard .local/bin/*)
+	$(wildcard .bash_completion.d/*) $(wildcard .bash/*) $(wildcard .local/bin/*)
 
 
 TARGETS_CLEAN ?= SHELL

@@ -46,6 +46,7 @@ have ack-grep && alias ack="ack-grep"
 
 # Php stuff
 have php-cs-fixer && alias psr="php-cs-fixer fix --dry-run --verbose --diff"
+have checkcs && alias cs="git diff --name-only master | xargs -n1 checkcs"
 
 # Bashrc convenience
 alias bashrc="source ~/.bashrc"

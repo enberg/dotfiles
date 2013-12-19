@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while true ; do
+    inotifywait -qq --exclude ".sw[a-z]$" -e modify -r $1 &&
+    clear &&
+    phpunit -c app --group $2
+done

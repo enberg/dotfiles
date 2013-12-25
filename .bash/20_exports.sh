@@ -26,3 +26,6 @@ export PAGER="less"
 for dir in .bin .local/bin .rvm/bin; do
   [[ -d "$HOME/$dir" ]] && PATH="$PATH:$HOME/$dir"
 done
+
+#PS1
+export PS1="[\u@\h] \W> "

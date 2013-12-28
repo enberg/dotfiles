@@ -2,6 +2,20 @@
 
 # Ping for reachable hosts in subnet
 
+usage() {
+    cat << EOF
+Usage: $(basename $0) SUBNET [START] [END]
+
+Pings all hosts on SUBNET and returns a list of the ones that respond.
+Optionally limited to ping hosts from START up to END.
+
+Arguments:
+    SUBNET - A subnet specified by the three most significant bytes (i.e 192.168.0)
+    START  - The least significant byte of the ip to start at (i.e. 1)
+    END    - The least significant byte of the ip to end at (i.e. 255)
+EOF
+}
+
 # See if we can run parallel
 type "parallel" &> /dev/null
 PARALLEL_CHECK=$?
@@ -12,16 +26,19 @@ RANGE_END=254
 # Check args
 if [ $# -lt 1 ]; then
     echo "Error: Bad parameters"
+    usage
     exit 1
 fi
 if [[ ! $1 =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
     echo "Error: Bad parameters, only accepts ip subrange in format #{##}.#{##}.#{##}"
+    usage
     exit 1
 fi
 RANGE_BASE=$1
 if [ ! -z $2 ]; then
     if [[ ! $2 =~ ^[0-9]{1,3}$ ]]; then
         echo "Error: Bad parameters, only accepts ip range start in format #{##}"
+        usage
         exit 1
     fi
     RANGE_START=$2
@@ -29,6 +46,7 @@ fi
 if [ ! -z $3 ]; then
     if [[ ! $3 =~ ^[0-9]{1,3}$ ]]; then
         echo "Error: Bad parameters, only accepts ip range end in format #{##}"
+        usage
         exit 1
     fi
     RANGE_END=$3

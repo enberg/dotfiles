@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Ping for reachable hosts in subnet
+
+# See if we can run parallel
+type "parallel" &> /dev/null
+PARALLEL_CHECK=$?
+
+RANGE_START=1
+RANGE_END=254
+
+# Check args
+if [ $# -lt 1 ]; then
+    echo "Error: Bad parameters"
+    exit 1
+fi
+if [[ ! $1 =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+    echo "Error: Bad parameters, only accepts ip subrange in format #{##}.#{##}.#{##}"
+    exit 1
+fi
+RANGE_BASE=$1
+if [ ! -z $2 ]; then
+    if [[ ! $2 =~ ^[0-9]{1,3}$ ]]; then
+        echo "Error: Bad parameters, only accepts ip range start in format #{##}"
+        exit 1
+    fi
+    RANGE_START=$2
+fi
+if [ ! -z $3 ]; then
+    if [[ ! $3 =~ ^[0-9]{1,3}$ ]]; then
+        echo "Error: Bad parameters, only accepts ip range end in format #{##}"
+        exit 1
+    fi
+    RANGE_END=$3
+fi
+
+if [[ $PARALLEL_CHECK == 0 ]]; then
+    # Parallel super fast hold on to your hats method
+    seq $RANGE_START $RANGE_END \
+        | parallel -j0 --gnu -k ping -c 1 $RANGE_BASE.{} \
+        | grep '64 bytes' \
+        | cut -d' ' -f4 \
+        | sed 's/://'
+else
+    # Iterative super slow snail method
+    for i in $(seq $RANGE_START $RANGE_END)
+    do
+        ping -c 1 $RANGE_BASE.$i \
+            | grep '64 bytes' \
+            | cut -d' ' -f4 \
+            | sed 's/://'
+    done
+fi

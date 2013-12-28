@@ -12,7 +12,7 @@ Optionally limited to ping hosts from START up to END.
 Arguments:
     SUBNET - A subnet specified by the three most significant bytes (i.e 192.168.0)
     START  - The least significant byte of the ip to start at (i.e. 1)
-    END    - The least significant byte of the ip to end at (i.e. 255)
+    END    - The least significant byte of the ip to end at (i.e. 254)
 EOF
 }
 
@@ -55,17 +55,23 @@ fi
 if [[ $PARALLEL_CHECK == 0 ]]; then
     # Parallel super fast hold on to your hats method
     seq $RANGE_START $RANGE_END \
-        | parallel -j0 --gnu -k ping -c 1 $RANGE_BASE.{} \
+        | parallel -j0 --gnu -k ping -c1 $RANGE_BASE.{} \
         | grep '64 bytes' \
         | cut -d' ' -f4 \
         | sed 's/://'
 else
-    # Iterative super slow snail method
+    # Iterative slower and slightly opportunistic method
     for i in $(seq $RANGE_START $RANGE_END)
     do
-        ping -c 1 $RANGE_BASE.$i \
+        ping -c1 $RANGE_BASE.$i \
             | grep '64 bytes' \
             | cut -d' ' -f4 \
-            | sed 's/://'
+            | sed 's/://' &
+
+        # Run in batches of 20
+        if [ $(( $i % 20 )) -eq 0 ]; then
+            wait
+        fi
     done
+    wait
 fi

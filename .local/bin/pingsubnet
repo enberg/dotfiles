@@ -9,11 +9,37 @@ Usage: $(basename $0) SUBNET [START] [END]
 Pings all hosts on SUBNET and returns a list of the ones that respond.
 Optionally limited to ping hosts from START up to END.
 
+NB: If you have fping you shouldn't be reading this.
+
 Arguments:
     SUBNET - A subnet specified by the three most significant bytes (i.e 192.168.0)
     START  - The least significant byte of the ip to start at (i.e. 1)
     END    - The least significant byte of the ip to end at (i.e. 254)
 EOF
+}
+
+pingworker() {
+    INPUT=$1
+    OUTPUT=$2
+    
+    while true; do
+        # We're faking a queue here, popping an ip off the top for
+        # each iteration
+        LINE=$(flock $INPUT.lock -c "(head -n1 $INPUT; tail -n +2 $INPUT > $INPUT.tmp; mv $INPUT.tmp $INPUT)")
+
+        if [[ -z $LINE ]]; then
+            # If there's no more input, there's no more work
+            break
+        else
+            IP=$(ping -c1 $LINE \
+                | grep '64 bytes' \
+                | cut -d' ' -f4 \
+                | sed 's/://')
+            if [[ -n "$IP" ]]; then
+                flock $OUTPUT.lock -c "echo $IP >> $OUTPUT"
+            fi
+        fi
+    done
 }
 
 # See if we can run parallel
@@ -60,18 +86,34 @@ if [[ $PARALLEL_CHECK == 0 ]]; then
         | cut -d' ' -f4 \
         | sed 's/://'
 else
-    # Iterative slower and slightly opportunistic method
-    for i in $(seq $RANGE_START $RANGE_END)
-    do
-        ping -c1 $RANGE_BASE.$i \
-            | grep '64 bytes' \
-            | cut -d' ' -f4 \
-            | sed 's/://' &
+    # Slower and pointlessly complicated method
+    
+    # Some props
+    if [[ -d /dev/shm ]]; then
+        # Use tmpfs if available
+        WORKDIR=$(mktemp -d --tmpdir=/dev/shm/)
+    else
+        # Fallback to /tmp
+        WORKDIR=$(mktemp -d)
+    fi
 
-        # Run in batches of 20
-        if [ $(( $i % 20 )) -eq 0 ]; then
-            wait
-        fi
+    # Set up communication super-highway
+    INPUTFILE=$WORKDIR/input
+    OUTPUTFILE=$WORKDIR/output
+
+    # Cleanliness is next to godliness
+    trap "pkill -TERM -P $$; rm -rf $WORKDIR; exit" INT TERM EXIT
+
+    # Generate list of ips
+    seq --format="$RANGE_BASE.%g" $RANGE_START $RANGE_END > $INPUTFILE
+
+    # Spawn some workers to do our pinging
+    for i in {1..50}; do
+        pingworker $INPUTFILE $OUTPUTFILE &
     done
+
+    # Let them pingers to ping
     wait
+
+    cat $OUTPUTFILE
 fi

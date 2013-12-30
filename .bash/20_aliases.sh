@@ -22,7 +22,7 @@ alias v="vim"
 
 # Git shortcuts
 alias ga="git add"
-alias gp="git push"
+#alias gp="git push"
 alias gpa="gp --all"
 alias gu="git pull"
 alias gl="git log"
@@ -50,3 +50,6 @@ have checkcs && alias cs="git diff --name-only master | xargs -n1 checkcs"
 
 # Bashrc convenience
 alias bashrc="source ~/.bashrc"
+
+# Color and stuff
+alias tmux="tmux -2"

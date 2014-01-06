@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 SHELL_FILES ?= .bash_profile .ackrc .bashrc .ggitignore .gitconfig .inputrc \
 	$(wildcard .bash_completion.d/*) $(wildcard .bash/*) $(wildcard .local/bin/*)
 

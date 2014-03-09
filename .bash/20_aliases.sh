@@ -53,3 +53,4 @@ alias bashrc="source ~/.bashrc"
 
 # Color and stuff
 alias tmux="tmux -2"
+alias grep="grep --color=ALWAYS"

@@ -1,0 +1,3 @@
+[submodule "vendor/todo.txt"]
+	path = vendor/todo.txt
+	url = https://github.com/ginatrapani/todo.txt-cli.git

@@ -50,3 +50,6 @@ have checkcs && alias cs="git diff --name-only master | xargs -n1 checkcs"
 
 # Bashrc convenience
 alias bashrc="source ~/.bashrc"
+
+# Todo.txt
+alias t="todo.sh"

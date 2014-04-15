@@ -22,7 +22,7 @@ alias v="vim"
 
 # Git shortcuts
 alias ga="git add"
-alias gp="git push"
+#alias gp="git push"
 alias gpa="gp --all"
 alias gu="git pull"
 alias gl="git log"
@@ -53,3 +53,7 @@ alias bashrc="source ~/.bashrc"
 
 # Todo.txt
 alias t="todo.sh"
+
+# Color and stuff
+alias tmux="tmux -2"
+alias grep="grep --color=ALWAYS"

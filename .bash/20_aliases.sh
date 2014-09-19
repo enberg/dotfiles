@@ -57,3 +57,6 @@ alias t="todo.sh"
 # Color and stuff
 alias tmux="tmux -2"
 alias grep="grep --color=ALWAYS"
+
+# Vagrant
+alias vssh="jump vagrant && vagrant ssh &&cd -"

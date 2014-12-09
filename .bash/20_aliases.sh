@@ -60,3 +60,4 @@ alias grep="grep --color=ALWAYS"
 
 # Vagrant
 alias vssh="jump vagrant && vagrant ssh &&cd -"
+alias v="vagrant"

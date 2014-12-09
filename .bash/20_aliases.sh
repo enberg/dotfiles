@@ -18,7 +18,7 @@ alias vi="vim"
 
 # Shortcuts
 alias g="git"
-alias v="vim"
+alias v="vagrant"
 
 # Git shortcuts
 alias ga="git add"
@@ -60,4 +60,3 @@ alias grep="grep --color=ALWAYS"
 
 # Vagrant
 alias vssh="jump vagrant && vagrant ssh &&cd -"
-alias v="vagrant"

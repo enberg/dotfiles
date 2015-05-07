@@ -53,6 +53,7 @@ alias bashrc="source ~/.bashrc"
 
 # Todo.txt
 alias t="todo.sh"
+have timetrap && alias tt="timetrap"
 
 # Color and stuff
 alias tmux="tmux -2"

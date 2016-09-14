@@ -43,7 +43,7 @@ if [[ -f "$NVM_HOME/nvm.sh" ]]; then
 	[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
 fi
 
-# Ubuntu completions
+# Complete completions
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
@@ -54,5 +54,10 @@ if ! shopt -oq posix; then
     [ -r "$file" ] && source "$file"
   done
 
+  if [ -d /usr/local/etc/bash_completion.d ]; then
+      for file in /usr/local/etc/bash_completion.d/*; do
+        [ -r "$file" ] && source "$file"
+      done
+  fi
 fi
 

@@ -3,5 +3,6 @@
 Session.vim
 .netrwhist
 .idea
+*.iml
 *~
 .DS_Store
